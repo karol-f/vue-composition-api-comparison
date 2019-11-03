@@ -1,6 +1,6 @@
 module.exports = {
   publicPath:
-    process.env.NODE_ENV === "production" ? "/saving-quick-notes-vue/" : "/",
+    process.env.NODE_ENV === "production" ? "/vue-composition-api-comparison/" : "/",
   outputDir: "docs",
   css: {
     loaderOptions: {
