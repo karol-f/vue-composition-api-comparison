@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <prism
+      language="javascript"
+      :plugins="['line-highlight']"
+      :data-line="localState.lines"
+      :code="localState.code"
+    ></prism>
+
     <summary-bar
       :total="summary.notesTotal"
       :not-completed="summary.notesNotCompleted"
@@ -55,6 +62,7 @@ import { useRouter } from "@/hooks/router";
 import SummaryBar from "@/components/SummaryBar";
 import DataTable from "@/components/DataTable";
 import DeletePrompt from "@/components/DeletePrompt";
+import Prism from "vue-prismjs";
 
 import { reactive, computed, watch } from "@vue/composition-api";
 
@@ -136,11 +144,24 @@ export default {
   components: {
     SummaryBar,
     DataTable,
-    DeletePrompt
+    DeletePrompt,
+    Prism
   },
   setup() {
     const { dispatch } = useStore();
     dispatch("loadNotes");
+
+    const localState = reactive({
+      code: `const a = b
+const a = b
+const a = b
+const a = b
+const a = b`,
+      lines: "1-2"
+    });
+
+    setTimeout(() => (localState.code = localState.code + "aaa"), 1000);
+    setTimeout(() => (localState.lines = "2-4"), 1100);
 
     const { summary } = useSummary();
     const { dataTable } = useDataTable();
@@ -154,6 +175,7 @@ export default {
     } = useNotesActions(dataTable);
 
     return {
+      localState,
       summary,
       dataTable,
       actions,
